@@ -33,10 +33,12 @@ public class RequestMaker {
             request = createRequestWithKey(command);
         } else if (CommandStorage.COMMANDS_WITH_HUMANBEING_ARG.contains(name)) {
             request = createRequestWithHumanBeing(command, scanner, scriptMode);
-        } else if (CommandStorage.COMMANDS_WITH_HUMANBEING_ID_ARGS.contains(name)) {
-            request = createRequestWithHumanBeingID(command, scanner, scriptMode);
+        } else if (CommandStorage.COMMANDS_WITH_HUMANBEING_KEY_ARGS.contains(name)) {
+                request = createRequestWithHumanBeingKey(command, scanner, scriptMode);
+        } else if (CommandStorage.COMMANDS_WITH_HUMANBEING_ID_KEY_ARGS.contains(name)) {
+            request = createRequestWithHumanBeingKeyID(command, scanner, scriptMode);
         } else if (CommandStorage.SCRIPT_ARGUMENT_COMMAND.contains(name)) {
-            request = createRequestWithHumanBeingID(command, scanner, scriptMode);
+            request = createRequestWithHumanBeingKeyID(command, scanner, scriptMode);
         } else {
             throw new NullPointerException("Команда не найдена. Напишите 'help' для просмотра всех доступных команд.");
         }
@@ -72,7 +74,7 @@ public class RequestMaker {
                     command.getCommandArgs()[0]);
             return new Request(command.getCommandName(), key);
         } catch (InvalidCommandArgument | InvalidInputException | NullPointerException e) {
-            //PrintManager.printErr(e.getMessage());
+            PrintManager.printErr(e.getMessage());
             return null;
         } catch (IllegalArgumentException e) {
             PrintManager.printErr("Введено некорректное значение аргумента.");
@@ -107,7 +109,23 @@ public class RequestMaker {
      * @param scriptMode режим скрипта
      * @return запрос
      */
-    private Request createRequestWithHumanBeingID(SendCommand command, Scanner scanner, boolean scriptMode) {
+//    private Request createRequestWithHumanBeingID(SendCommand command, Scanner scanner, boolean scriptMode) {
+//        try {
+//            CommandValidator.validateAmountOfArgs(command.getCommandArgs(), 1);
+//            InputManager inputManager = new InputManager(scanner, scriptMode);
+//            int id = CommandValidator.validateArg(arg -> ((int) arg) > 0,
+//                    "Значение ID должно быть натуральным числом!",
+//                    Integer::parseInt,
+//                    command.getCommandArgs()[0]);
+//            return new Request(command.getCommandName(), id, inputManager.askHumanBeing());
+//        } catch (InvalidCommandArgument | InvalidInputException | IllegalArgumentException | ScriptException e) {
+//            PrintManager.printErr("Проверьте корректность данных скрипта. Работа приложения завершается.");
+//            System.exit(1);
+//            return null;
+//        }
+//    }
+
+    private Request createRequestWithHumanBeingKeyID(SendCommand command, Scanner scanner, boolean scriptMode) {
         try {
             CommandValidator.validateAmountOfArgs(command.getCommandArgs(), 1);
             InputManager inputManager = new InputManager(scanner, scriptMode);
@@ -115,26 +133,36 @@ public class RequestMaker {
                     "Значение ID должно быть натуральным числом!",
                     Integer::parseInt,
                     command.getCommandArgs()[0]);
-            return new Request(command.getCommandName(), id, inputManager.askHumanBeing());
-        } catch (InvalidCommandArgument | InvalidInputException | IllegalArgumentException | ScriptException e) {
+            Integer key = inputManager.askKey();
+            return new Request(command.getCommandName(), id, key, inputManager.askHumanBeing());
+        } catch (InvalidCommandArgument | IllegalArgumentException e) {
+            PrintManager.printErr("Аргумент команды не удалось обработать. Введете корректную команду.");
+            //System.exit(1);
+            return null;
+        } catch (InvalidInputException e) {
+            PrintManager.printErr("Некорректный ввод. Введете корректную команду.");
+            //System.exit(1);
+            return null;
+        } catch (ScriptException e) {
             PrintManager.printErr("Проверьте корректность данных скрипта. Работа приложения завершается.");
-            System.exit(1);
+            //System.exit(1);
             return null;
         }
     }
 
     private Request createRequestWithHumanBeingKey(SendCommand command, Scanner scanner, boolean scriptMode) {
         try {
-            CommandValidator.validateAmountOfArgs(command.getCommandArgs(), 1);
+            CommandValidator.validateAmountOfArgs(command.getCommandArgs(), 0);
             InputManager inputManager = new InputManager(scanner, scriptMode);
-            Integer key = CommandValidator.validateArg(arg -> ((int) arg) > 0,
-                    "Значение ключа должно быть целым числом!",
-                    Integer::parseInt,
-                    command.getCommandArgs()[0]);
-            return new Request(command.getCommandName(), key, inputManager.askHumanBeing());
-        } catch (InvalidCommandArgument | InvalidInputException | IllegalArgumentException | ScriptException e) {
+            Integer key = inputManager.askKey();
+            return new Request(command.getCommandName(), inputManager.askHumanBeing(), key);
+        } catch (InvalidCommandArgument | IllegalArgumentException e) {
+            PrintManager.printErr("Аргумент команды не удалось обработать. Введете корректную команду.");
+            //System.exit(1);
+            return null;
+        } catch (ScriptException e) {
             PrintManager.printErr("Проверьте корректность данных скрипта. Работа приложения завершается.");
-            System.exit(1);
+            //System.exit(1);
             return null;
         }
     }

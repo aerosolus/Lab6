@@ -24,6 +24,11 @@ public class Request implements Serializable, DataManager {
     private Integer argument;
 
     /**
+     * Ключ-аргумент команды.
+     */
+    private Integer keyArgument;
+
+    /**
      * Аргумент команды - объект HumanBeing.
      */
     private HumanBeing humanBeingArgument;
@@ -68,6 +73,19 @@ public class Request implements Serializable, DataManager {
         this.humanBeingArgument = humanBeingArgument;
     }
 
+    public Request(String commandName, HumanBeing humanBeingArgument, Integer keyArgument) {
+        this.commandName = commandName;
+        this.keyArgument = keyArgument;
+        this.humanBeingArgument = humanBeingArgument;
+    }
+
+    public Request(String commandName, Integer argument, Integer keyArgument, HumanBeing humanBeingArgument) {
+        this.commandName = commandName;
+        this.argument = argument;
+        this.keyArgument = keyArgument;
+        this.humanBeingArgument = humanBeingArgument;
+    }
+
     /**
      * Получает имя команды.
      * @return имя команды
@@ -82,6 +100,10 @@ public class Request implements Serializable, DataManager {
      */
     public Integer getArgument() {
         return argument;
+    }
+
+    public Integer getKeyArgument() {
+        return keyArgument;
     }
 
     /**

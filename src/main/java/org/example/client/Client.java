@@ -60,7 +60,7 @@ public class Client {
             if (!reconnectionMode) {
                 inputPort();
             } else {
-                Thread.sleep(10 * 1000); // 7 секунд на переподключение
+                Thread.sleep(5 * 1000); // 5 секунд на переподключение
             }
             SocketChannel clientChannel = SocketChannel.open(new InetSocketAddress(HOST, PORT));
             PrintManager.printInfoMessage("Клиент подключен.");

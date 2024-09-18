@@ -47,7 +47,7 @@ public class Server {
         PrintManager.printInfoMessage("Вы хотите использовать порт по умолчанию? [y/n]");
         try {
             String s = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
-            if ("n".equals(s)) {
+            if ("n".toLowerCase().trim().equals(s)) {
                 PrintManager.printInfoMessage("Введите порт (1-65535):");
                 String port = scanner.nextLine();
                 try {
@@ -63,7 +63,7 @@ public class Server {
                     PrintManager.printErr("Ошибка при обработке номера, повторите ввод.");
                     inputPort();
                 }
-            } else if ("y".equals(s)) {
+            } else if ("y".toLowerCase().trim().equals(s)) {
                 serverSocket = new ServerSocket(ServerApplication.PORT);
             } else {
                 PrintManager.printErr("Вы ввели недопустимый символ, попробуйте еще раз.");

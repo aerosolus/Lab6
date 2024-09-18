@@ -31,15 +31,19 @@ public class UpdateCommand extends Command {
     @Override
     public Response execute(Request request) {
         Integer id = request.getArgument();
-        HumanBeing humanBeingToUpdate = collectionManager.getById(id);
-        if (humanBeingToUpdate == null)
+        if (!collectionManager.containsId(id))
             return new Response(PrintManager.getPlainText("Объекта HumanBeing с таким id не существует."));
         else {
-            //Integer key = request.getArgument();
+            HumanBeing oldHumanBeing = collectionManager.getById(id);
             HumanBeing updatedHumanBeing = request.getHumanBeingArgument();
-            updatedHumanBeing.setId(id);
-            collectionManager.update(567, updatedHumanBeing);
-            return new Response(PrintManager.getPlainText("Данные объекта HumanBeing были обновлены."));
+            Integer key = request.getKeyArgument();
+            if (!(collectionManager.containsKey(key) && !collectionManager.getByKey(key).equals(oldHumanBeing))) {
+                updatedHumanBeing.setId(id);
+                collectionManager.update(key, updatedHumanBeing);
+                return new Response(PrintManager.getPlainText("Данные объекта HumanBeing были обновлены."));
+            } else {
+                return new Response(PrintManager.getPlainText("Использование такого ключа запрещено. Объект HumanBeing не обновлен в коллекции."));
+            }
         }
     }
 }

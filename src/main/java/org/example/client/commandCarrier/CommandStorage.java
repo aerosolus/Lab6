@@ -27,7 +27,9 @@ public class CommandStorage {
     /**
      * Множество команд с аргументами ID и HumanBeing.
      */
-    public static final Set<String> COMMANDS_WITH_HUMANBEING_ID_ARGS = new HashSet<>();
+    public static final Set<String> COMMANDS_WITH_HUMANBEING_ID_KEY_ARGS = new HashSet<>();
+
+    public static final Set<String> COMMANDS_WITH_HUMANBEING_KEY_ARGS = new HashSet<>();
 
     /**
      * Множество команд, принимающих аргументом скрипт.
@@ -46,7 +48,6 @@ public class CommandStorage {
                 "print_field_descending_car"
         );
         Collections.addAll(COMMANDS_WITH_KEY_ARG,
-                "insert",
                 "remove_key",
                 "remove_greater_key",
                 "remove_lower_key"
@@ -54,7 +55,10 @@ public class CommandStorage {
         Collections.addAll(COMMANDS_WITH_HUMANBEING_ARG,
                 "remove_lower"
         );
-        Collections.addAll(COMMANDS_WITH_HUMANBEING_ID_ARGS,
+        Collections.addAll(COMMANDS_WITH_HUMANBEING_KEY_ARGS,
+                "insert"
+        );
+        Collections.addAll(COMMANDS_WITH_HUMANBEING_ID_KEY_ARGS,
                 "update");
         SCRIPT_ARGUMENT_COMMAND.add("execute_script");
     }

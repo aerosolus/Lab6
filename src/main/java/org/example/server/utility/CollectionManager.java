@@ -188,6 +188,10 @@ public class CollectionManager {
         return null;
     }
 
+    public HumanBeing getByKey(Integer key) {
+        return humanBeingCollection.get(key);
+    }
+
     /**
      * Updates an element in the collection with the specified ID.
      *
@@ -200,21 +204,21 @@ public class CollectionManager {
         humanBeingCollection.put(key, humanBeing);
     }
 
-    /**
-     * Prints the contents of the collection to the console.
-     */
-    public String showCollection() {
-        String result = "";
-        if (humanBeingCollection == null || humanBeingCollection.isEmpty()) {
-            result = "LinkedHashMap пуст или null.";
-            return result;
-        } else {
-            for (Map.Entry<Integer, HumanBeing> entry : humanBeingCollection.entrySet()) {
-                result += entry.getKey() + " : " + entry.getValue() + "\n";
-            }
-            return result;
-        }
-    }
+//    /**
+//     * Prints the contents of the collection to the console.
+//     */
+//    public String showCollection() {
+//        String result = "";
+//        if (humanBeingCollection == null || humanBeingCollection.isEmpty()) {
+//            result = "LinkedHashMap пуст или null.";
+//            return result;
+//        } else {
+//            for (Map.Entry<Integer, HumanBeing> entry : humanBeingCollection.entrySet()) {
+//                result += entry.getKey() + " : " + entry.getValue() + "\n";
+//            }
+//            return result;
+//        }
+//    }
 
     /**
      * Сортирует коллекцию по умолчанию (по названию - имени)
