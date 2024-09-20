@@ -20,29 +20,36 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * Класс для установки соединения с сервером.
+ * Represents the main application for establishing and managing connections with a server.
+ * This class handles the core functionality of the client, including reading commands, sending requests,
+ * and processing server responses.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class ClientApplication {
 
     /**
-     * Сканнер для чтения команд из скрипта.
+     * Scanner for reading commands from a script.
      */
     private static Scanner scriptScanner;
 
     /**
-     * Создатель запросов для отправки на сервер.
+     * Creator for generating requests to be sent to the server.
      */
     private static final RequestMaker requestMaker = new RequestMaker();
 
     /**
-     * Запускает бесконечный цикл селектора.
-     * @param selector объект типа Selector для мониторинга состояний канала
-     * @param channel объект типа SocketChannel - канал для передачи данных по сети
-     * @param scanner объект типа Scanner для чтения ввода пользователя с консоли
-     * @param scriptMode флаг режима работы скрипта
-     * @throws IOException если произошла ошибка ввода/вывода при работе с каналами или сокетами
-     * @throws ClassNotFoundException если класс не найден при десериализации
-     * @throws InterruptedException если произошла ошибка в работе потоков
+     * Starts an infinite loop for the selector.
+     *
+     * @param selector The Selector object for monitoring channel states.
+     * @param channel The SocketChannel object for network data transmission.
+     * @param scanner The Scanner object for reading user console input.
+     * @param scriptMode Flag indicating whether the application is running in script mode.
+     * @throws IOException if an I/O error occurs when working with channels or sockets.
+     * @throws ClassNotFoundException if a class is not found during deserialization.
+     * @throws InterruptedException if a thread interruption occurs.
      */
     static void startSelectorLoop(Selector selector, SocketChannel channel, Scanner scanner, boolean scriptMode) throws IOException, ClassNotFoundException, InterruptedException {
         do {
@@ -51,15 +58,16 @@ public class ClientApplication {
     }
 
     /**
-     * Запускает итерационный цикл обработки готовых ключей селектора.
-     * @param selector объект типа Selector для мониторинга состояний канала
-     * @param channel объект типа SocketChannel - канал для передачи данных по сети
-     * @param scanner объект типа Scanner для чтения ввода пользователя с консоли
-     * @param scriptMode флаг режима работы скрипта
-     * @return true, если нужно продолжать работу цикла, false - если необходимо остановиться
-     * @throws IOException если произошла ошибка ввода/вывода при работе с каналами или сокетами
-     * @throws ClassNotFoundException если класс не найден при десериализации
-     * @throws InterruptedException если произошла ошибка в работе потоков
+     * Starts an iterative loop for processing ready keys from the selector.
+     *
+     * @param selector The Selector object for monitoring channel states.
+     * @param channel The SocketChannel object for network data transmission.
+     * @param scanner The Scanner object for reading user console input.
+     * @param scriptMode Flag indicating whether the application is running in script mode.
+     * @return true if the loop should continue, false if it should stop.
+     * @throws IOException if an I/O error occurs when working with channels or sockets.
+     * @throws ClassNotFoundException if a class is not found during deserialization.
+     * @throws InterruptedException if a thread interruption occurs.
      */
     private static boolean startIteratorLoop(Selector selector, SocketChannel channel, Scanner scanner, boolean scriptMode) throws IOException, ClassNotFoundException, InterruptedException {
         Set<SelectionKey> readyKeys = selector.selectedKeys();
@@ -111,8 +119,6 @@ public class ClientApplication {
                 } catch (NullPointerException | IllegalArgumentException | InvalidCommandArgument e) {
                     if (!e.getMessage().isEmpty()) {
                         PrintManager.printErr(e.getMessage());
-                    } else {
-                        PrintManager.printInfoMessage("Произошла некая ошибка при вводе команды.");
                     }
                 }
             }

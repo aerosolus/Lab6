@@ -7,39 +7,45 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 /**
- * Класс Response - класс, содержащий информацию для ответа на запрос.
+ * Represents a response object containing information for replying to a request.
+ * Implements Serializable and DataManager interfaces for easy serialization and data management.
+ * Provides flexible constructors and getter methods for various combinations of response data.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class Response implements Serializable, DataManager {
 
     /**
-     * Сообщение, отправляемое в ответ на запрос.
+     * Message sent in response to a request.
      */
     private String responseMessage;
 
     /**
-     * Данные объекта HumanBeing, отправляемые в ответ на запрос.
+     * HumanBeing object data sent in response to a request.
      */
     private HumanBeing responseHumanBeing;
 
     /**
-     * Данные коллекции, отправляемые в ответ на запрос.
+     * LinkedHashMap of HumanBeing objects sent in response to a request.
      */
     private LinkedHashMap<Integer, HumanBeing> responseCollection;
 
     /**
-     * Конструктор класса Response, принимающий сообщение для ответа.
+     * Constructs a Response object with a given response message.
      *
-     * @param responseMessage сообщение для ответа
+     * @param responseMessage Message to be sent in response.
      */
     public Response(String responseMessage) {
         this.responseMessage = responseMessage;
     }
 
     /**
-     * Конструктор класса Response, принимающий сообщение и данные объекта HumanBeing для ответа.
+     * Constructs a Response object with a given response message and HumanBeing object data.
      *
-     * @param responseMessage сообщение для ответа
-     * @param responseHumanBeing данные объекта HumanBeing для ответа
+     * @param responseMessage Message to be sent in response.
+     * @param responseHumanBeing HumanBeing object data to be sent in response.
      */
     public Response(String responseMessage, HumanBeing responseHumanBeing) {
         this.responseMessage = responseMessage;
@@ -47,10 +53,10 @@ public class Response implements Serializable, DataManager {
     }
 
     /**
-     * Конструктор класса Response, принимающий сообщение и коллекцию объектов HumanBeing для ответа.
+     * Constructs a Response object with a given response message and collection of HumanBeing objects.
      *
-     * @param responseMessage сообщение для ответа.
-     * @param responseCollection коллекция объектов HumanBeing для ответа
+     * @param responseMessage Message to be sent in response.
+     * @param responseCollection LinkedHashMap of HumanBeing objects to be sent in response.
      */
     public Response(String responseMessage, LinkedHashMap<Integer, HumanBeing> responseCollection) {
         this.responseMessage = responseMessage;
@@ -58,45 +64,45 @@ public class Response implements Serializable, DataManager {
     }
 
     /**
-     * Конструктор класса Response, принимающий данные объекта HumanBeing для ответа.
+     * Constructs a Response object with a given HumanBeing object data.
      *
-     * @param responseHumanBeing данные объекта HumanBeing для ответа
+     * @param responseHumanBeing HumanBeing object data to be sent in response.
      */
     public Response(HumanBeing responseHumanBeing) {
         this.responseHumanBeing = responseHumanBeing;
     }
 
     /**
-     * Конструктор класса Response, принимающий коллекцию объектов HumanBeing для ответа.
+     * Constructs a Response object with a given collection of HumanBeing objects.
      *
-     * @param responseCollection коллекция объектов HumanBeing для ответа
+     * @param responseCollection LinkedHashMap of HumanBeing objects to be sent in response.
      */
     public Response(LinkedHashMap<Integer, HumanBeing> responseCollection) {
         this.responseCollection = responseCollection;
     }
 
     /**
-     * Метод, возвращающий сообщение для ответа.
+     * Retrieves the message sent in response.
      *
-     * @return сообщение для ответа
+     * @return The response message.
      */
     public String getResponseMessage() {
         return responseMessage;
     }
 
     /**
-     * Метод, возвращающий данные объекта HumanBeing для ответа.
+     * Retrieves the HumanBeing object data sent in response.
      *
-     * @return данные объекта HumanBeing для ответа
+     * @return The HumanBeing object data.
      */
     public HumanBeing getResponseHumanBeing() {
         return responseHumanBeing;
     }
 
     /**
-     * Метод, возвращающий коллекцию объектов HumanBeing для ответа.
+     * Retrieves the collection of HumanBeing objects sent in response.
      *
-     * @return коллекция объектов HumanBeing для ответа
+     * @return The LinkedHashMap of HumanBeing objects.
      */
     public LinkedHashMap<Integer, HumanBeing> getResponseCollection() {
         return responseCollection;
@@ -104,9 +110,9 @@ public class Response implements Serializable, DataManager {
 
 
     /**
-     * Метод, возвращающий информацию для отправки.
+     * Returns a string representation of the response data, including all relevant information.
      *
-     * @return информация для отправки
+     * @return A formatted string containing all response data.
      */
     @Override
     public String getData() {
@@ -116,7 +122,9 @@ public class Response implements Serializable, DataManager {
     }
 
     /**
-     * Представляет ответ, полученный от сервера, в формате, удобном для чтения.
+     * Returns a string representation of the Response object in a readable format.
+     *
+     * @return A formatted string representation of the Response object.
      */
     @Override
     public String toString() {

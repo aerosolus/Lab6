@@ -8,28 +8,36 @@ import java.io.*;
 import java.net.Socket;
 
 /**
- * Класс ServerSocketIO предоставляет методы для управления вводом/выводом данных в сокете на стороне сервера.
+ * Manages input/output operations for server-side socket communication.
+ * Implements the InputOutputManager interface to provide methods for receiving and sending data over sockets.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class ServerSocketIOManager implements InputOutputManager {
 
     /**
-     * Сокет
+     * Socket object used for communication.
      */
     private final Socket socket;
 
     /**
-     * Конструктор принимает сокет для дальнейшей работы с ним.
-     * @param socket - сокет
+     * Constructs a ServerSocketIOManager instance with the given socket.
+     *
+     * @param socket The socket for managing input/output operations.
      */
     public ServerSocketIOManager(Socket socket) {
         this.socket = socket;
     }
 
+
     /**
-     * Метод receive() используется для чтения данных из сокета и десериализации объекта Request.
-     * @return объект Request, полученный из сокета.
-     * @throws IOException - выбрасывается в случае ошибки ввода/вывода.
-     * @throws ClassNotFoundException - выбрасывается, когда не удается найти класс, необходимый для десериализации.
+     * Receives and deserializes a Request object from the socket stream.
+     *
+     * @return The deserialized Request object received from the socket.
+     * @throws IOException if an I/O error occurs during reading from the socket.
+     * @throws ClassNotFoundException if the class of the serialized object cannot be found.
      */
     @Override
     public DataManager receive() throws IOException, ClassNotFoundException {
@@ -38,9 +46,10 @@ public class ServerSocketIOManager implements InputOutputManager {
     }
 
     /**
-     * Метод send() используется для записи данных в сокет в формате объекта.
-     * @param data - объект DataManager, который необходимо записать в сокет.
-     * @throws IOException - выбрасывается в случае ошибки ввода/вывода.
+     * Serializes and sends a DataManager object over the socket.
+     *
+     * @param data The DataManager object to send over the socket.
+     * @throws IOException if an I/O error occurs during writing to the socket.
      */
     @Override
     public void send(DataManager data) throws IOException {

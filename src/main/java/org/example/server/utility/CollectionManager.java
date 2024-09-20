@@ -2,7 +2,6 @@ package org.example.server.utility;
 
 import org.example.common.collectionEntities.HumanBeing;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,26 +20,12 @@ public class CollectionManager {
     /**
      * The underlying map storing HumanBeing objects with unique integer IDs.
      */
-    private LinkedHashMap<Integer, HumanBeing> humanBeingCollection = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, HumanBeing> humanBeingCollection;
 
     /**
      * The date when the collection was initialized.
      */
     private final Date dateOfInitialization = new Date();
-
-    /**
-     * The path to the file where the collection is saved.
-     */
-    private String filePath;
-
-//    /**
-//     * Constructs a CollectionManager with an initial collection and file path.
-//     *
-//     * @param collection The initial collection of HumanBeing objects.
-//     */
-//    public CollectionManager(LinkedHashMap<Integer, HumanBeing> collection) {
-//        this.humanBeingCollection = collection;
-//    }
 
     /**
      * Default constructor for CollectionManager.
@@ -56,16 +41,6 @@ public class CollectionManager {
      */
     public LinkedHashMap<Integer, HumanBeing> getCollection() {
         return humanBeingCollection;
-    }
-
-
-    /**
-     * Возвращает дату инициализации коллекции
-     *
-     * @return дата инициализации коллекции
-     */
-    public Date getDateOfInitialization() {
-        return dateOfInitialization;
     }
 
     /**
@@ -89,9 +64,9 @@ public class CollectionManager {
     }
 
     /**
-     * Adds a HumanBeing object to the collection with a given ID.
+     * Adds a HumanBeing object to the collection with a given key.
      *
-     * @param key The ID of the HumanBeing object.
+     * @param key The key of the HumanBeing object.
      * @param humanBeing The HumanBeing object to add.
      */
     public void addToCollection(Integer key, HumanBeing humanBeing) {
@@ -145,13 +120,13 @@ public class CollectionManager {
         humanBeingCollection.clear();
     }
 
-    // name in its natural form, especially
     /**
      * Removes all HumanBeing objects from the collection that are less than the given object.
      *
      * @param humanBeing The HumanBeing object to compare against.
      */
     public void removeLower(HumanBeing humanBeing) {
+        // Name field in its natural form, especially, is used in comparison
         humanBeingCollection.entrySet().removeIf(e -> e.getValue().compareTo(humanBeing) < 0);
     }
 
@@ -188,6 +163,12 @@ public class CollectionManager {
         return null;
     }
 
+    /**
+     * Retrieves a HumanBeing object from the collection by its key.
+     *
+     * @param key The key of the HumanBeing object to retrieve.
+     * @return The HumanBeing object associated with the given key, or null if not found.
+     */
     public HumanBeing getByKey(Integer key) {
         return humanBeingCollection.get(key);
     }
@@ -204,31 +185,20 @@ public class CollectionManager {
         humanBeingCollection.put(key, humanBeing);
     }
 
-//    /**
-//     * Prints the contents of the collection to the console.
-//     */
-//    public String showCollection() {
-//        String result = "";
-//        if (humanBeingCollection == null || humanBeingCollection.isEmpty()) {
-//            result = "LinkedHashMap пуст или null.";
-//            return result;
-//        } else {
-//            for (Map.Entry<Integer, HumanBeing> entry : humanBeingCollection.entrySet()) {
-//                result += entry.getKey() + " : " + entry.getValue() + "\n";
-//            }
-//            return result;
-//        }
-//    }
-
     /**
-     * Сортирует коллекцию по умолчанию (по названию - имени)
+     * Displays the contents of the collection sorted alphabetically by HumanBeing name.
+     * This method sorts the collection based on the names of the HumanBeing objects
+     * and returns a formatted string representation of the sorted collection.
+     *
+     * @return A string representation of the sorted collection, ordered by HumanBeing names.
      */
     public String showSortedCollection() {
+        // Name is used in comparison as название
         // Convert LinkedHashMap entries to List
         List<Map.Entry<Integer, HumanBeing>> list = new ArrayList<>(humanBeingCollection.entrySet());
 
         // Sort the List based on the values' names
-        Collections.sort(list, Comparator.comparing(Map.Entry::getValue));
+        Collections.sort(list, Map.Entry.comparingByValue());
 
         // Create a new sorted LinkedHashMap
         LinkedHashMap<Integer, HumanBeing> sortedMap = new LinkedHashMap<>();
@@ -254,6 +224,8 @@ public class CollectionManager {
 
     /**
      * Prints the contents of the collection in ascending order based on the HumanBeing objects themselves.
+     *
+     * @return A string representation of the sorted collection.
      */
     public String printCollectionAscending() {
         StringBuilder sb = new StringBuilder();
@@ -281,6 +253,8 @@ public class CollectionManager {
 
     /**
      * Prints the contents of the collection in descending order based on the HumanBeing objects themselves.
+     *
+     * @return A string representation of the sorted collection.
      */
     public String printCollectionDescending() {
         StringBuilder sb = new StringBuilder();
@@ -309,6 +283,8 @@ public class CollectionManager {
 
     /**
      * Prints the car field values of HumanBeing instances of the collection in descending order.
+     *
+     * @return A string representation of the sorted collection based on car names.
      */
     public String printFieldDescendingCar() {
         StringBuilder sb = new StringBuilder();

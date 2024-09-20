@@ -14,32 +14,39 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
- * Класс FileManager, который отвечает за запись коллекции в файл и чтение из файла.
+ * Manager class responsible for writing collections to files and reading them back.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class FileManager {
 
     /**
-     * Название файла
+     * Name of the file where the collection will be saved or loaded from.
      */
     private final String fileName;
 
     /**
-     * Создает новый экземпляр класса FileManager с указанным именем файла и настройками XStream.
+     * Constructs a new FileManager instance with the specified file name.
      *
-     * @param fileName имя файла
+     * @param fileName The name of the file to save/load the collection to/from.
      */
     public FileManager(String fileName) {
         this.fileName = fileName;
     }
 
     /**
-     * Переменная, в которой хранится путь к папке с файлами.
+     * Path to the folder containing files.
      */
     public static String path;
 
     /**
-     * Метод для получения имени файла из переменной окружения.
-     * @return имя файла
+     * Retrieves the filename from the environment variable.
+     * Checks if there's only one valid path in the environment variable.
+     *
+     * @return The name of the file.
+     * @throws NullPointerException if the environment variable is null or empty.
      */
     public static String getFileName(){
         try {
@@ -81,7 +88,6 @@ public class FileManager {
      * Writes the given map of HumanBeing objects to a CSV file.
      *
      * @param humanBeings Map of HumanBeing objects to be written to the file.
-     * @throws IOException if there's an error during file writing.
      */
     public void writeCollection(LinkedHashMap<Integer, HumanBeing> humanBeings) {
         if (!fileName.isEmpty()) {
@@ -141,8 +147,10 @@ public class FileManager {
     /**
      * Reads a CSV file and returns a map of HumanBeing objects.
      *
-     * @return linkedHashMap of HumanBeing objects keyed by their ID.
-     * @throws IOException if there's an error during file reading.
+     * @throws NoSuchElementException if the file is empty.
+     * @throws NullPointerException if the file contains null values.
+     * @throws NumberFormatException if the file contains invalid numeric values.
+     * @throws IllegalStateException if an unexpected error occurs.
      */
     public void readCollection() {
         if (!fileName.isEmpty()) {
@@ -155,7 +163,7 @@ public class FileManager {
                         String[] properties = line.split("\t"); // Assuming tab symbol as the delimiter
                         Integer key = Integer.parseInt(properties[0]); // First value is the key
                         HumanBeing result = new HumanBeing();
-                        result.setId(Integer.valueOf(properties[1]));
+                        result.setId(Integer.parseInt(properties[1]));
                         if ((properties[2].equals("null")) || properties[2].isEmpty()) {
                             result.setName("standardName"); //if null, then set it to smt standard
                         } else {
@@ -178,7 +186,7 @@ public class FileManager {
                             result.setSoundtrackName(properties[9]);
                         }
                         if (properties[10].equals("null")) {
-                            result.setMinutesOfWaiting(Double.valueOf(0)); //if null, then set it to smt standard
+                            result.setMinutesOfWaiting(Double.parseDouble("0")); //if null, then set it to smt standard
                         } else {
                             result.setMinutesOfWaiting(Double.valueOf(properties[10]));
                         }
@@ -199,7 +207,9 @@ public class FileManager {
                         linkedHashMap.put(key, result);
                     }
                 }
-                ServerApplication.collectionManager.setHumanBeingCollection(linkedHashMap);
+                Validator validator = new Validator(linkedHashMap);
+                LinkedHashMap<Integer, HumanBeing> validatedLinkedHashMap = validator.validate();
+                ServerApplication.collectionManager.setHumanBeingCollection(validatedLinkedHashMap);
             } catch (IOException exception) {
                 PrintManager.printInfoMessage("Файл не найден или доступ запрещен. Работа сервера завершена.");
                 System.exit(1);

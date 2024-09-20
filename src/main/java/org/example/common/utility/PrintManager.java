@@ -3,38 +3,43 @@ package org.example.common.utility;
 import java.io.PrintStream;
 
 /**
- * Класс PrintManager предназначен для вывода текстовых сообщений в консоль.
+ * Utility class for managing console output, providing methods to display various types of messages.
+ * This class simplifies the process of printing information, errors, and plain text to the console.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class PrintManager {
 
     /**
-     * Объект вывода текста в консоль.
+     * Static instance of PrintStream for console output.
      */
     private static final PrintStream printStream = System.out;
 
     /**
-     * Выводит в консоль информационное сообщение.
+     * Prints an informational message to the console.
      *
-     * @param message строка, содержащая текст информационного сообщения.
+     * @param message The message to be printed, typically used for logging.
      */
     public static void printInfoMessage(String message) {
         printStream.println(message);
     }
 
     /**
-     * Выводит в консоль сообщение об ошибке.
+     * Prints an error message to the console.
      *
-     * @param message строка, содержащая текст сообщения об ошибке.
+     * @param message The error message to be displayed.
      */
     public static void printErr(String message) {
         printStream.println("Ошибка: " + message);
     }
 
     /**
-     * Возвращает строку простого текста.
+     * Returns the given text unchanged, suitable for displaying plain text.
      *
-     * @param text строка, которую нужно отобразить белым цветом
-     * @return строка с белым текстом
+     * @param text The text to be returned as-is.
+     * @return The original text, treated as plain text.
      */
     public static String getPlainText(String text) {
         return text;

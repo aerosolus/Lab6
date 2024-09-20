@@ -11,21 +11,32 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Главный класс, запускающий приложение сервера.
- * Содержит метод main, отвечающий за запуск приложения.
+ * Main class responsible for launching the server application.
+ * Contains the main method that initializes and starts the server.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class Server {
 
     /**
-     * Имя файла, в котором хранится коллекция.
+     * Name of the file storing the collection.
      */
     static String fileName;
 
     /**
-     * Объект, который используется для прослушивания входящих клиентских подключений на сервере.
+     * ServerSocket object used for listening to incoming client connections.
      */
     private static ServerSocket serverSocket;
 
+    /**
+     * Entry point of the server application.
+     * Initializes the server, sets up the port, reads the initial collection
+     * and starts the server and console threads.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         try {
             fileName = FileManager.getFileName();
@@ -40,14 +51,17 @@ public class Server {
     }
 
     /**
-     * Метод inputPort запрашивает данные для создания соединения.
+     * Prompts the user for port input and sets up the server socket accordingly.
+     * This method handles both default port selection and custom port entry.
+     *
+     * @throws IllegalArgumentException if the entered port is invalid.
      */
     private static void inputPort() {
         Scanner scanner = ServerApplication.scanner;
         PrintManager.printInfoMessage("Вы хотите использовать порт по умолчанию? [y/n]");
         try {
             String s = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
-            if ("n".toLowerCase().trim().equals(s)) {
+            if ("n".equals(s)) {
                 PrintManager.printInfoMessage("Введите порт (1-65535):");
                 String port = scanner.nextLine();
                 try {
@@ -63,7 +77,7 @@ public class Server {
                     PrintManager.printErr("Ошибка при обработке номера, повторите ввод.");
                     inputPort();
                 }
-            } else if ("y".toLowerCase().trim().equals(s)) {
+            } else if ("y".equals(s)) {
                 serverSocket = new ServerSocket(ServerApplication.PORT);
             } else {
                 PrintManager.printErr("Вы ввели недопустимый символ, попробуйте еще раз.");

@@ -16,31 +16,38 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Класс для установки соединения с клиентами.
+ * Manages server operations, including connection setup, command execution, and client communication.
+ * This class serves as the main entry point for the server application,
+ * handling incoming connections and delegating tasks to appropriate components.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class ServerApplication {
+
     /**
-     * Сканер для чтения ввода.
+     * Scanner instance for reading console input.
      */
     public static final Scanner scanner = new Scanner(System.in);
 
     /**
-     * Файловый менеджер.
+     * File manager for handling file operations.
      */
     public static final FileManager fileManager = new FileManager(Server.fileName);
 
     /**
-     * Менеджер коллекции.
+     * Collection manager for managing the collection of HumanBeing objects.
      */
     public static CollectionManager collectionManager = new CollectionManager();
 
     /**
-     * Состояние сервера.
+     * Flag indicating whether the server is running.
      */
     public static boolean running = true;
 
     /**
-     * Командный менеджер, содержащий список команд для обработки запросов клиентов.
+     * Command manager containing a list of commands for processing client requests.
      */
     public static CommandManager commandManager = new CommandManager(
             new HelpCommand(),
@@ -61,15 +68,16 @@ public class ServerApplication {
     );
 
     /**
-     * Стандартный порт.
+     * Standard port number for server communication.
      */
     protected static int PORT = 52052;
 
     /**
-     * Метод для запуска сервера.
-     * @param args аргументы командной строки.
-     * @param serverSocket объект ServerSocket, прослушивающий порт.
-     * @throws IOException если возникли проблемы с вводом-выводом.
+     * Starts the server, initiating continuous listening for client connections.
+     *
+     * @param args Command-line arguments.
+     * @param serverSocket ServerSocket object listening on the specified port.
+     * @throws IOException if input/output problems occur.
      */
     static void startServer(String[] args, ServerSocket serverSocket) throws IOException {
         try {
@@ -93,12 +101,13 @@ public class ServerApplication {
     }
 
     /**
-     * Метод, который запускает бесконечный цикл обработки запросов клиента.
-     * @param socket сокет для подключения клиента.
-     * @param serverSocket серверный сокет для принятия клиентских подключений.
-     * @throws IOException если возникает ошибка ввода/вывода при работе с сокетами.
-     * @throws ClassNotFoundException если класс не был найден при чтении объекта из потока.
-     * @throws InterruptedException если поток был прерван во время ожидания ответа от клиента.
+     * Initiates a loop for processing client requests continuously.
+     *
+     * @param socket Client socket for connection.
+     * @param serverSocket Server socket for accepting client connections.
+     * @throws IOException if input/output problems occur with sockets.
+     * @throws ClassNotFoundException if the class of an object read from the stream is not found.
+     * @throws InterruptedException if the thread is interrupted while waiting for client response.
      */
     private static void startSelectorLoop(Socket socket, ServerSocket serverSocket) throws IOException, ClassNotFoundException, InterruptedException {
         while (socket.isConnected()) {
@@ -107,11 +116,12 @@ public class ServerApplication {
     }
 
     /**
-     * Метод, который обрабатывает запросы клиента.
-     * @param socket сокет для подключения клиента.
-     * @param serverSocket серверный сокет для принятия клиентских подключений.
-     * @throws IOException если возникает ошибка ввода/вывода при работе с сокетами.
-     * @throws ClassNotFoundException если класс не был найден при чтении объекта из потока.
+     * Processes incoming client requests.
+     *
+     * @param socket Client socket for connection.
+     * @param serverSocket Server socket for accepting client connections.
+     * @throws IOException if input/output problems occur with sockets.
+     * @throws ClassNotFoundException if the class of an object read from the stream is not found.
      */
     private static void startIteratorLoop(Socket socket, ServerSocket serverSocket) throws IOException, ClassNotFoundException {
         boolean isClientDisconnected = false;
@@ -134,6 +144,7 @@ public class ServerApplication {
         } catch (DisconnectException e) {
             socket.close();
             serverSocket.close();
+            PrintManager.printErr(e.getMessage());
             PrintManager.printInfoMessage("Работа сервера завершена.");
             System.exit(1);
         } catch (IOException e) {

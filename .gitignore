@@ -12,7 +12,11 @@ target/
 *.iml
 *.ipr
 data.csv
+insert
 script
+1
+2
+3
 
 ### Eclipse ###
 .apt_generated

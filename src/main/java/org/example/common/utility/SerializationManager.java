@@ -6,33 +6,41 @@ import java.io.*;
 import java.nio.ByteBuffer;
 
 /**
- * Класс для сериализации и десериализации объектов запросов и ответов
+ * Manages serialization and deserialization of request and response objects.
+ * Provides methods for converting between serialized byte buffers and object representations.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class SerializationManager {
 
     /**
-     * Метод для сериализации объекта запроса
-     * @param request объект запроса
-     * @return буфер байтов с сериализованным запросом
-     * @throws IOException если произошла ошибка ввода-вывода при сериализации
+     * Serializes a request object into a ByteBuffer.
+     *
+     * @param request The request object to serialize.
+     * @return ByteBuffer containing the serialized request data.
+     * @throws IOException if an I/O error occurs during serialization.
      */
     public static ByteBuffer serializeRequest(DataManager request) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(request);
         objectOutputStream.flush();
-        ByteBuffer bufToSend = ByteBuffer.wrap(byteArrayOutputStream.toByteArray()); // Создаем байтовый буфер на основе массива байт из байтового массива
+        // Create a byte buffer based on a byte array from a byte array
+        ByteBuffer bufToSend = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
         objectOutputStream.close();
         byteArrayOutputStream.close();
         return bufToSend;
     }
 
     /**
-     * Метод для десериализации объекта ответа
-     * @param acceptedBuf буфер байтов с сериализованным ответом
-     * @return объект ответа
-     * @throws IOException если произошла ошибка ввода-вывода при десериализации
-     * @throws ClassNotFoundException если класс объекта не найден при десериализации
+     * Deserializes a byte array representing a response object into a Response object.
+     *
+     * @param acceptedBuf Byte array containing the serialized response data.
+     * @return Deserialized Response object.
+     * @throws IOException if an I/O error occurs during deserialization.
+     * @throws ClassNotFoundException if the class of the object cannot be found during deserialization.
      */
     public static Response deSerializeResponse(byte[] acceptedBuf) throws IOException, ClassNotFoundException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(acceptedBuf);

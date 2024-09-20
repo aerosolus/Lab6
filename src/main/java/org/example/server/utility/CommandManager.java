@@ -7,34 +7,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Менеджер команд.
+ * Manager for handling commands.
+ * Provides functionality to manage and execute various commands related to work with the collection.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
+ * @see Command
  */
 public class CommandManager {
 
     /**
-     * Список доступных команд.
-     * Ключ - название команды, значение - объект команды.
+     * Map of available commands.
+     * Key - command name, value - command object.
      */
     public static final Map<String, Command> AVAILABLE_COMMANDS = new HashMap<>();
 
-//    /**
-//     * Создает новый объект менеджера команд.
-//     * @param insertCommand - команда добавления элемента в коллекцию
-//     * @param clearCommand - команда очистки коллекции
-//     * @param executeScriptCommand - команда исполнения скрипта
-//     * @param exitCommand - команда выхода из приложения
-//     * @param helpCommand - команда вывода справки по доступным командам
-//     * @param infoCommand - команда вывода информации о коллекции
-//     * @param printDescendingCommand - команда вывода элементов коллекции в порядке убывания
-//     * @param printFieldDescendingAnnualTurnoverCommand - команда вывода значения поля annualTurnover элементов коллекции в порядке убывания
-//     * @param printUniqueEmployeesCountCommand - команда вывода количества уникальных значений поля employeesCount элементов коллекции
-//     * @param removeByIdCommand - команда удаления элемента коллекции по заданному id
-//     * @param removeFirstCommand - команда удаления первого элемента коллекции
-//     * @param showCommand - команда вывода всех элементов коллекции
-//     * @param shuffleCommand - команда перемешивания элементов коллекции
-//     * @param sortCommand - команда сортировки элементов коллекции в естественном порядке
-//     * @param updateByIdCommand - команда обновления значения элемента коллекции по заданному id
-//     */
+    /**
+     * Constructs a new CommandManager instance.
+     * Initializes the map of available commands.
+     *
+     * @param helpCommand   Command for displaying help
+     * @param infoCommand   Command for retrieving collection information
+     * @param showCommand   Command for displaying all collection elements
+     * @param insertCommand Command for inserting a new element into the collection
+     * @param updateCommand Command for updating an existing element in the collection
+     * @param removeKeyCommand Command for removing an element by key
+     * @param clearCommand   Command for clearing the entire collection
+     * @param executeScriptCommand Command for executing a script
+     * @param exitCommand     Command for exiting the application
+     * @param removeLowerCommand Command for removing lower elements
+     * @param removeLowerKeyCommand Command for removing elements with a lower key
+     * @param removeGreaterKeyCommand Command for removing elements with a greater key
+     * @param printAscendingCommand Command for printing elements in ascending order
+     * @param printDescendingCommand Command for printing elements in descending order
+     * @param printFieldDescendingCarCommand Command for printing the car field values in descending order
+     */
     public CommandManager(Command helpCommand,
                           Command infoCommand,
                           Command showCommand,
@@ -69,9 +77,12 @@ public class CommandManager {
     }
 
     /**
-     * Метод для получения объекта команды по имени команды из запроса.
-     * @param request запрос от клиента
-     * @return объект команды, соответствующий имени команды из запроса
+     * Initializes a command based on the given request.
+     * Retrieves the corresponding command object from the AVAILABLE_COMMANDS map.
+     *
+     * @param request Client request containing the command name
+     * @return Command object corresponding to the requested command name
+     * @throws NullPointerException if the request does not contain a valid command name
      */
     public Command initCommand(Request request) {
         String commandName = request.getCommandName();

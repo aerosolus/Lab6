@@ -13,39 +13,49 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Менеджер ввода информации об организации.
+ * This class manages input operations for various entities in the application.
+ * It provides methods for collecting user input for HumanBeing, Car, and other related objects,
+ * handling validation, and converting inputs to appropriate types.
+ *
+ * <p>This class is part of the utility layer, acting as an intermediary between
+ * the user interface and the core logic of the application.</p>
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class InputManager {
 
     /**
-     * Константа строки приглашения для ввода в интерактивном режиме.
+     * Constant string used as a prompt for interactive mode input.
      */
     public static final String INPUT_INFO = "> ";
 
     /**
-     * Константа строки приглашения для ввода команд в интерактивном режиме.
+     * Constant string used as a prompt for command input in interactive mode.
      */
     public static final String INPUT_COMMAND = "$ ";
 
     /**
-     * Сканер для ввода.
+     * Scanner object for user input.
      */
     private Scanner userScanner;
 
     /**
-     * Режим скрипта.
+     * Flag indicating whether the program is running in script mode.
      */
     private boolean scriptMode;
 
     /**
-     * Шаблон для проверки числа.
+     * Regular expression pattern for validating numeric inputs.
      */
     private final String numberPattern = "-?\\d+(\\.\\d+)?";
 
     /**
-     * Создает менеджер для ввода с помощью заданного сканера.
-     * @param scanner сканер для ввода.
-     * @param scriptMode режим чтения со скрипта
+     * Constructs an InputManager object with the specified scanner and script mode.
+     *
+     * @param scanner Scanner object for user input.
+     * @param scriptMode Flag indicating whether the program is running in script mode.
      */
     public InputManager(Scanner scanner, boolean scriptMode) {
         this.userScanner = scanner;
@@ -53,14 +63,15 @@ public class InputManager {
     }
 
     /**
-     * Метод запрашивает у пользователя параметры HumanBeing и возвращает экземпляр данного класса.
-     * @return экземпляр HumanBeing.
-     * @throws ScriptException если введен неверный ввод в скрипте.
+     * Prompts the user for HumanBeing parameters and returns a HumanBeing object.
+     *
+     * @return A HumanBeing object with validated and converted input values.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public HumanBeing askHumanBeing() throws ScriptException {
         return
                 new HumanBeing.HumanBeingBuilder(
-                        0, //kinda null
+                        0, //kinda default
                         askName(),
                         askCoordinates(),
                         askHasToothpick(),
@@ -72,6 +83,12 @@ public class InputManager {
                         .setCar(askCar()).build();
     }
 
+    /**
+     * Prompts the user for a key value and validates it as an integer.
+     *
+     * @return The parsed integer value of the input.
+     * @throws ScriptException if invalid input is detected in script mode.
+     */
     public Integer askKey() throws ScriptException {
         String strKey;
         Integer key;
@@ -100,9 +117,10 @@ public class InputManager {
     }
 
     /**
-     * Метод запрашивает у пользователя имя-название объекта HumanBeing.
-     * @return имя-название объекта HumanBeing.
-     * @throws ScriptException если введен неверный ввод в скрипте.
+     * Prompts the user for the name of the HumanBeing object.
+     *
+     * @return The name of the HumanBeing object.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public String askName() throws ScriptException {
         String name;
@@ -134,9 +152,10 @@ public class InputManager {
     }
 
     /**
-     * Метод для ввода значения координаты X
-     * @return x
-     * @throws ScriptException если введен неверный ввод в скрипте.
+     * Prompts the user for the x-coordinate of the HumanBeing object.
+     *
+     * @return The parsed double value of the x-coordinate.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public double askXcoordinate() throws ScriptException {
         String strX;
@@ -166,9 +185,10 @@ public class InputManager {
     }
 
     /**
-     * Метод для ввода значения координаты Y
-     * @return значение координаты Y
-     * @throws ScriptException если была ошибка ввода значения в скрипте
+     * Prompts the user for the y-coordinate of the HumanBeing object.
+     *
+     * @return The parsed long value of the y-coordinate.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public long askYcoordinate() throws ScriptException {
         String strY;
@@ -198,9 +218,10 @@ public class InputManager {
     }
 
     /**
-     * Метод для ввода координат
-     * @return объект класса Coordinates с заданными координатами
-     * @throws ScriptException если была ошибка ввода значения в скрипте
+     * Prompts the user for coordinates and returns a Coordinates object.
+     *
+     * @return A Coordinates object with the entered coordinates.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public Coordinates askCoordinates() throws ScriptException {
         double x = askXcoordinate();
@@ -208,6 +229,12 @@ public class InputManager {
         return new Coordinates(new Coordinates.CoordinatesBuilder(x, y));
     }
 
+    /**
+     * Prompts the user for the realHero value and returns a boolean.
+     *
+     * @return The parsed boolean value of the realHero input.
+     * @throws ScriptException if invalid input is detected in script mode.
+     */
     public boolean askRealHero() throws ScriptException {
         String strRealHero;
         boolean realHero;
@@ -235,6 +262,12 @@ public class InputManager {
         return realHero;
     }
 
+    /**
+     * Prompts the user for the hasToothpick value of the HumanBeing object.
+     *
+     * @return The boolean value representing whether the HumanBeing has a toothpick.
+     * @throws ScriptException if invalid input is detected in script mode.
+     */
     public boolean askHasToothpick() throws ScriptException {
         String strHasToothpick;
         boolean hasToothpick;
@@ -263,9 +296,10 @@ public class InputManager {
     }
 
     /**
-     * Метод для ввода значения поля impactSpeed объекта HumanBeing
-     * @return значение поля impactSpeed
-     * @throws ScriptException если была ошибка ввода значения в скрипте
+     * Prompts the user for the impactSpeed value of the HumanBeing object.
+     *
+     * @return The long value representing the impact speed.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public long askImpactSpeed() throws ScriptException {
         String strImpactSpeed;
@@ -295,9 +329,10 @@ public class InputManager {
     }
 
     /**
-     * Метод запрашивает у пользователя значение поля soundtrackName объекта HumanBeing.
-     * @return значение поля soundtrackName объекта HumanBeing.
-     * @throws ScriptException если введен неверный ввод в скрипте.
+     * Prompts the user for the soundtrackName value of the HumanBeing object.
+     *
+     * @return The string value representing the soundtrack name.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public String askSoundtrackName() throws ScriptException {
         String soundtrackName;
@@ -329,9 +364,10 @@ public class InputManager {
     }
 
     /**
-     * Метод для ввода значения координаты Y
-     * @return значение координаты Y
-     * @throws ScriptException если была ошибка ввода значения в скрипте
+     * Prompts the user for the minutesOfWaiting value of the HumanBeing object.
+     *
+     * @return The double value representing the waiting time in minutes.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public Double askMinutesOfWaiting() throws ScriptException {
         String strMinutesOfWaiting;
@@ -361,9 +397,10 @@ public class InputManager {
     }
 
     /**
-     * Метод запрашивает у пользователя тип оружия.
-     * @return тип оружия.
-     * @throws ScriptException если введенные данные некорректны при работе скрипта.
+     * Prompts the user for the weapon type of the HumanBeing object.
+     *
+     * @return WeaponType enum item representing the selected weapon type.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public WeaponType askWeaponType() throws ScriptException {
         String strType;
@@ -393,9 +430,10 @@ public class InputManager {
     }
 
     /**
-     * Запрашивает у пользователя значение поля name объекта Car и возвращает его в виде строки.
-     * @return Значение поля name объекта Car, введенное пользователем
-     * @throws ScriptException если введенные данные некорректны при работе скрипта.
+     * Prompts the user for the name of the Car object.
+     *
+     * @return The string value representing the car name.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public String askCarName() throws ScriptException {
         String carName;
@@ -416,6 +454,12 @@ public class InputManager {
         return null;
     }
 
+    /**
+     * Prompts the user for the cool status of the Car object.
+     *
+     * @return The boolean value representing whether the car is cool.
+     * @throws ScriptException if invalid input is detected in script mode.
+     */
     public boolean askCarCool() throws ScriptException {
         String strCarCool;
         boolean carCool;
@@ -444,10 +488,10 @@ public class InputManager {
     }
 
     /**
-     * Запрашивает у пользователя имя объекта класса Car и значение поля cool,
-     * чтобы создать объект Car с этими значениями
-     * @return Новый объект Car с названием, введенным пользователем, или null, если название пусто, а также значением isCool
-     * @throws ScriptException если введенные данные некорректны при работе скрипта.
+     * Prompts the user for both the name and cool status of the Car object.
+     *
+     * @return A new Car object with the entered name and cool status.
+     * @throws ScriptException if invalid input is detected in script mode.
      */
     public Car askCar() throws ScriptException {
         String carName = askCarName();

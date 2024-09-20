@@ -6,19 +6,25 @@ import org.example.common.utility.Response;
 import org.example.server.utility.CollectionManager;
 
 /**
- * Команда, выводящая элементы коллекции в порядке возрастания.
+ * Represents the "print_ascending" command for displaying elements of the collection in ascending order.
+ * This class extends the {@code Command} functionality to output collection items sorted by some criteria.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
+ * @see Command
  */
 public class PrintAscendingCommand extends Command {
 
     /**
-     * Менеджер коллекции.
+     * The manager responsible for handling the collection operations.
      */
     private final CollectionManager collectionManager;
 
     /**
-     * Создает новый объект команды.
+     * Creates a new PrintAscendingCommand instance.
      *
-     * @param collectionManager менеджер коллекции
+     * @param collectionManager The CollectionManager instance to use for printing the collection.
      */
     public PrintAscendingCommand(CollectionManager collectionManager) {
         super("print_ascending", "вывести элементы коллекции в порядке возрастания", 0);
@@ -26,10 +32,10 @@ public class PrintAscendingCommand extends Command {
     }
 
     /**
-     * Выполнение команды вывода элементов в порядке убывания.
+     * Executes the print_ascending command, displaying the collection elements in ascending order.
      *
-     * @param request объект запроса
-     * @return объект типа Response с результатом выполнения команды
+     * @param request The user's request to view the collection in ascending order.
+     * @return A Response object containing either a message about an empty collection or the sorted collection elements.
      */
     @Override
     public Response execute(Request request) {

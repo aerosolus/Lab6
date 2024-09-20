@@ -7,54 +7,65 @@ import java.io.File;
 import java.util.Stack;
 
 /**
- * Класс для чтения скриптов.
+ * Manages the reading and execution of scripts.
+ * This class handles the loading and processing of script files, including recursive calls and error handling.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @version 1.0
  */
 public class ScriptManager {
 
     /**
-     * Имя скрипта.
+     * The name of the current script being executed.
      */
     private final String filename;
 
     /**
-     * Путь до скрипта скрипта.
+     * The file path of the current script.
      */
     private final File path;
 
     /**
-     * Стек для отслеживания рекурсии в скриптах.
+     * A stack to track recursion in scripts.
      */
     public static Stack<String> callStack = new Stack<>();
 
     /**
-     * Конструктор для создания объекта ScriptReader.
+     * Constructs a ScriptManager object.
      *
-     * @param sendCommand объект типа CommandToSend, содержащий имя скрипта.
-     * @throws IllegalArgumentException исключение, которое выбрасывается, если файл скрипта не найден или не может быть прочитан.
+     * @param sendCommand The SendCommand object containing the script filename.
+     * @throws IllegalArgumentException if the script file is not found or cannot be read.
      */
     public ScriptManager(SendCommand sendCommand) throws IllegalArgumentException {
         this.filename = sendCommand.getCommandArgs()[0];
         path = new File(new File(System.getProperty("user.dir")), filename);
+
+        // Check if the script exists and is readable
         if (!path.exists() || !path.canRead())
             throw new IllegalArgumentException("Проблема при вызове скрипта. Проверьте данные на верность.");
+
+        // Check for recursive calls
         if (callStack.contains(path.getAbsolutePath())) {
             callStack.clear();
             PrintManager.printErr("Скрипты рекурсивно ссылаются друг на друга. Работа программы прекращена.");
             System.exit(1);
         }
+        // Push the current script path onto the call stack
         callStack.push(path.getAbsolutePath());
     }
 
     /**
-     * Метод для остановки чтения скрипта.
+     * Stops reading scripts.
      */
     public void stopScriptReading() {
         callStack.clear();
     }
 
     /**
-     * Метод для получения пути к скрипту.
-     * @return объект типа File, представляющий путь к скрипту.
+     * Gets the file path of the current script.
+     *
+     * @return The File object representing the path to the current script.
      */
     public File getPath() {
         return path;

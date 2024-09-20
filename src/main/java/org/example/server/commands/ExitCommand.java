@@ -5,21 +5,29 @@ import org.example.common.utility.Request;
 import org.example.common.utility.Response;
 
 /**
- * Класс команды, завершающей программу.
+ * Represents the "exit" command for terminating the server program.
+ * This class extends the {@code Command} functionality to gracefully shut down the application.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
+ * @see Command
  */
 public class ExitCommand extends Command {
 
     /**
-     * Создает новый объект команды.
+     * Creates a new ExitCommand instance.
+     * This constructor initializes the command with the appropriate name and description.
      */
     public ExitCommand() {
         super("exit", "завершить программу", 0);
     }
 
     /**
-     * Завершает выполнение программы на сервере.
-     * @param request объект запроса
-     * @return сообщение об отключении клиента
+     * Terminates the server program execution.
+     *
+     * @param request The user's request to exit the program.
+     * @return A Response object containing the client disconnection message.
      */
     @Override
     public Response execute(Request request) {

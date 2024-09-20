@@ -9,28 +9,34 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 /**
- * Класс ClientSocketChannelIOManager для обработки ввода/вывода через сетевой канал.
- * Позволяет отправлять и получать данные с сервера.
+ * This class manages input/output operations through a network socket channel.
+ * This class allows sending and receiving data to/from the server.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class ClientSocketChannelIOManager implements InputOutputManager {
 
     /**
-     * Канал сокета, используемый для связи с сервером.
+     * The socket channel used for communication with the server.
      */
     private final SocketChannel channel;
 
     /**
-     * Конструктор ClientSocketChannelIOManager.
-     * @param channel канал SocketChannel, через который происходит взаимодействие с сервером.
+     * Constructs a ClientSocketChannelIOManager instance.
+     *
+     * @param channel The SocketChannel through which interaction with the server occurs.
      */
     public ClientSocketChannelIOManager(SocketChannel channel) {
         this.channel = channel;
     }
 
     /**
-     * Отправляет данные на сервер.
-     * @param data объект типа DataManager, который нужно отправить.
-     * @throws IOException если произошла ошибка при передаче данных на сервер.
+     * Sends data to the server.
+     *
+     * @param data The DataManager object to be sent.
+     * @throws IOException if an I/O error occurs while sending data to the server.
      */
     @Override
     public void send(DataManager data) throws IOException {
@@ -39,10 +45,11 @@ public class ClientSocketChannelIOManager implements InputOutputManager {
     }
 
     /**
-     * Получает данные с сервера.
-     * @return объект типа DataManager, полученный с сервера.
-     * @throws IOException если произошла ошибка при передаче данных от сервера.
-     * @throws ClassNotFoundException если не удалось распаковать полученные данные.
+     * Receives data from the server.
+     *
+     * @return A DataManager object received from the server.
+     * @throws IOException if an I/O error occurs while receiving data from the server.
+     * @throws ClassNotFoundException if the received data cannot be deserialized.
      */
     @Override
     public DataManager receive() throws IOException, ClassNotFoundException {

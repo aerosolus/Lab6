@@ -11,63 +11,75 @@ import java.nio.channels.SocketChannel;
 import java.nio.channels.UnresolvedAddressException;
 import java.util.Locale;
 import java.util.NoSuchElementException;
-import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
 /**
- * Главный класс, запускающий приложение клиента.
- * Содержит метод main, отвечающий за запуск приложения.
+ * Main class responsible for launching the client application.
+ * Contains the main method that initializes and runs the client connection.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class Client {
 
     /**
-     * Порт по умолчанию
+     * Default port number for client communication.
      */
     private static int PORT = 52052;
 
     /**
-     * Хост, к которому пытается подключиться клиент.
+     * Host address to which the client attempts to connect.
      */
     private static String HOST;
 
     /**
-     * Максимально возможный номер порта.
+     * Maximum possible port number.
      */
     private static final int maxPort = 65535;
 
     /**
-     * Сканнер для считывания ввода с консоли.
+     * Scanner for reading console input.
      */
     private static final Scanner SCANNER = new Scanner(System.in);
 
     /**
-     * Селектор, используемый для отслеживания событий в сокете.
+     * Selector used for tracking events in the socket.
      */
     private static Selector selector;
 
     /**
-     * Режим переподключения, установленный в режим ожидания.
+     * Flag indicating reconnection mode.
      */
     private static boolean reconnectionMode = false;
 
     /**
-     * Количество неудачных попыток подключения к серверу.
+     * Number of failed connection attempts to the server.
      */
     private static int attempts = 0;
 
+    /**
+     * Main entry point for the client application.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         try {
             if (!reconnectionMode) {
-                inputPort();
+                inputPort(); // Prompt user for host and port details
             } else {
-                Thread.sleep(5 * 1000); // 5 секунд на переподключение
+                Thread.sleep(5000); // Wait for 5 seconds before attempting reconnection
             }
+
+            // Establish connection with the server
             SocketChannel clientChannel = SocketChannel.open(new InetSocketAddress(HOST, PORT));
             PrintManager.printInfoMessage("Клиент подключен.");
             attempts = 0;
             clientChannel.configureBlocking(false);
             selector = Selector.open();
             clientChannel.register(selector, SelectionKey.OP_WRITE);
+
+            // Start the selector loop
             ClientApplication.startSelectorLoop(selector, clientChannel, SCANNER, false);
         } catch (ClassNotFoundException e) {
             PrintManager.printErr("Попытка сериализовать несериализуемый объект.");
@@ -75,7 +87,7 @@ public class Client {
             PrintManager.printErr("Соединение было прервано во время бездействия. Перезапуск клиента.");
         } catch (UnresolvedAddressException e) {
             PrintManager.printErr("Сервер с этим хостом не найден. Попробуйте снова.");
-            main(args);
+            main(args); // Restart the connection attempt
         } catch (IOException e) {
             PrintManager.printErr("Сервер недоступен. Переподключение - попытка номер " + (attempts + 1));
             reconnectionMode = true;
@@ -85,7 +97,7 @@ public class Client {
             }
             attempts++;
             ScriptManager.callStack.clear();
-            main(args);
+            main(args); // Attempt reconnection
         } catch (NoSuchElementException e) {
             PrintManager.printErr("Принудительное завершение работы.");
             System.exit(1);
@@ -93,7 +105,7 @@ public class Client {
     }
 
     /**
-     * Метод inputPort запрашивает у пользователя данные для создания соединения.
+     * Prompts the user for connection details.
      */
     private static void inputPort() {
         PrintManager.printInfoMessage("Введите имя хоста:");

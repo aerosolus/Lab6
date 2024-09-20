@@ -8,22 +8,30 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Класс, представляющий поток консоли сервера.
+ * Represents a console thread for server operations.
+ * This thread handles user input and executes commands related to saving and exiting the server application.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class ConsoleThread extends Thread{
 
     /**
-     * Сканнер, считывающий ввод пользователя.
+     * Scanner instance for reading user input.
+     * Shared across all instances of ConsoleThread.
      */
     private static final Scanner scanner = ServerApplication.scanner;
 
     /**
-     * Состояние запущенного потока.
+     * Flag indicating whether the thread is currently running.
      */
     public volatile boolean running = true;
 
     /**
-     * Запускает поток консоли сервера.
+     * Starts the console thread, initiating continuous monitoring of user input.
+     *
+     * @throws NoSuchElementException if no element exists in the scanner buffer.
      */
     @Override
     public void run() {
@@ -32,7 +40,7 @@ public class ConsoleThread extends Thread{
             while (running) {
                 String line = scanner.nextLine();
                 if ("save".equalsIgnoreCase(line.toLowerCase().trim())) {
-                    ServerApplication.fileManager.writeCollection((LinkedHashMap<Integer, HumanBeing>) ServerApplication.collectionManager.getCollection());
+                    ServerApplication.fileManager.writeCollection(ServerApplication.collectionManager.getCollection());
                 } else if ("exit".equalsIgnoreCase(line.toLowerCase().trim())) {
                     PrintManager.printInfoMessage("Работа сервера завершена.");
                     System.exit(0);

@@ -5,16 +5,27 @@ import org.example.common.utility.Request;
 import org.example.common.utility.Response;
 import org.example.server.utility.CollectionManager;
 
+/**
+ * Represents the "print_field_descending_car" command for displaying values
+ * of the "car" field for all elements in descending order.
+ * This class extends the {@code Command} functionality to output the "car" field values, sorted in reverse order.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
+ * @see Command
+ */
 public class PrintFieldDescendingCarCommand extends Command {
 
     /**
-     Менеджер коллекции.
+     * The manager responsible for handling the collection operations.
      */
     private final CollectionManager collectionManager;
 
     /**
-     * Создает новый объект команды.
-     * @param collectionManager менеджер коллекции
+     * Creates a new PrintFieldDescendingCarCommand instance.
+     *
+     * @param collectionManager The CollectionManager instance to use for printing the "car" field values in descending order.
      */
     public PrintFieldDescendingCarCommand(CollectionManager collectionManager) {
         super("print_field_descending_car", "вывести значения поля car всех элементов в порядке убывания", 0);
@@ -22,9 +33,11 @@ public class PrintFieldDescendingCarCommand extends Command {
     }
 
     /**
-     * Выполняет команду для вывода всех значений годового оборота организаций в системе в порядке убывания.
-     * @param request объект запроса
-     * @return ответ на запрос с выводом всех значений годового оборота организаций в системе в порядке убывания
+     * Executes the print_field_descending_car command, displaying all values of the "car" field for elements in the collection,
+     * sorted in descending order.
+     *
+     * @param request The user's request to view the "car" field values in descending order.
+     * @return A Response object containing the sorted list of "car" field values from all elements in the collection.
      */
     @Override
     public Response execute(Request request) {

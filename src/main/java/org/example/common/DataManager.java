@@ -1,13 +1,20 @@
 package org.example.common;
 
 /**
- * Интерфейс, описывающий объекты, которые могут предоставлять строковое представление данных.
+ * Interface defining objects that can provide a string representation of their data.
+ * Objects implementing this interface should encapsulate data and
+ * provide a standardized way to retrieve that data as a string.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public interface DataManager {
 
     /**
-     * Метод, возвращающий строковое представление данных.
-     * @return строковое представление данных
+     * Retrieves a string representation of the data contained within the object.
+     *
+     * @return A string representation of the data.
      */
     String getData();
 }

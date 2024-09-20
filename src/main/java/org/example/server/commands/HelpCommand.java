@@ -6,12 +6,19 @@ import org.example.common.utility.Response;
 import org.example.server.utility.CommandManager;
 
 /**
- * Класс команды для вывода справки.
+ * Represents the "help" command for displaying available commands and their descriptions.
+ * This class extends the {@code Command} functionality to provide user assistance.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
+ * @see Command
  */
 public class HelpCommand extends Command {
 
     /**
-     * Создает новый объект команды.
+     * Creates a new HelpCommand instance.
+     * This constructor initializes the command with the appropriate name and description.
      */
     public HelpCommand() {
         super("help", "вывести справку по доступным командам", 0);
@@ -19,10 +26,10 @@ public class HelpCommand extends Command {
     }
 
     /**
-     * Выполняет команду вывода списка доступных команд.
+     * Executes the help command, listing all available commands.
      *
-     * @param request объект запроса
-     * @return объект ответа с информацией о доступных командах
+     * @param request The user's request to view help information.
+     * @return A Response object containing a formatted string with all available commands.
      */
     @Override
     public Response execute(Request request) {

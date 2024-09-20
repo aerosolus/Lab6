@@ -12,17 +12,23 @@ import org.example.common.utility.Request;
 import java.util.Scanner;
 
 /**
- * Класс для создания запроса по команде, полученной от пользователя.
+ * Creates requests based on user commands.
+ * This class handles the creation of various types of requests depending on the command and its arguments.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
  */
 public class RequestMaker {
 
     /**
-     * Создает запрос по переданной команде.
-     * @param command команда
-     * @param scanner сканер
-     * @param scriptMode режим скрипта
-     * @return запрос
-     * @throws NullPointerException если команда не найдена
+     * Creates a request based on the given command.
+     *
+     * @param command The SendCommand object representing the user's command.
+     * @param scanner The Scanner object used for user input.
+     * @param scriptMode Indicates whether the application is running in script mode.
+     * @return The created Request object.
+     * @throws NullPointerException if the command is not found.
      */
     public Request createCommandRequest(SendCommand command, Scanner scanner, boolean scriptMode) throws NullPointerException {
         String name = command.getCommandName();
@@ -46,9 +52,10 @@ public class RequestMaker {
     }
 
     /**
-     * Создает запрос без аргументов.
-     * @param command команда
-     * @return запрос
+     * Creates a request without arguments.
+     *
+     * @param command The SendCommand object representing the command.
+     * @return The created Request object.
      */
     private Request createRequestWithoutArgs(SendCommand command) {
         try {
@@ -61,9 +68,11 @@ public class RequestMaker {
     }
 
     /**
-     * Создает запрос с аргументом key.
-     * @param command команда
-     * @return запрос
+     * Creates a request with a 'key' argument.
+     *
+     * @param command The SendCommand object representing the command.
+     * @return The created Request object.
+     * @throws IllegalArgumentException if the input value cannot be parsed.
      */
     private Request createRequestWithKey(SendCommand command) {
         try {
@@ -83,12 +92,12 @@ public class RequestMaker {
     }
 
     /**
-     * Класс для создания запроса с аргументом типа HumanBeing.
+     * Creates a request with a HumanBeing argument.
      *
-     * @param command команда
-     * @param scanner сканер
-     * @param scriptMode режим скрипта
-     * @return запрос
+     * @param command The SendCommand object representing the command.
+     * @param scanner The Scanner object used for user input.
+     * @param scriptMode Indicates whether the application is running in script mode.
+     * @return The created Request object.
      */
     private Request createRequestWithHumanBeing(SendCommand command, Scanner scanner, boolean scriptMode) {
         try {
@@ -103,28 +112,14 @@ public class RequestMaker {
     }
 
     /**
-     * Класс для создания запроса с аргументом типа HumanBeing и ID.
-     * @param command команда
-     * @param scanner сканер
-     * @param scriptMode режим скрипта
-     * @return запрос
+     * Creates a request with a HumanBeing, ID and 'key' arguments.
+     *
+     * @param command The SendCommand object representing the command.
+     * @param scanner The Scanner object used for user input.
+     * @param scriptMode Indicates whether the application is running in script mode.
+     * @return The created Request object.
+     * @throws IllegalArgumentException if the input value cannot be parsed.
      */
-//    private Request createRequestWithHumanBeingID(SendCommand command, Scanner scanner, boolean scriptMode) {
-//        try {
-//            CommandValidator.validateAmountOfArgs(command.getCommandArgs(), 1);
-//            InputManager inputManager = new InputManager(scanner, scriptMode);
-//            int id = CommandValidator.validateArg(arg -> ((int) arg) > 0,
-//                    "Значение ID должно быть натуральным числом!",
-//                    Integer::parseInt,
-//                    command.getCommandArgs()[0]);
-//            return new Request(command.getCommandName(), id, inputManager.askHumanBeing());
-//        } catch (InvalidCommandArgument | InvalidInputException | IllegalArgumentException | ScriptException e) {
-//            PrintManager.printErr("Проверьте корректность данных скрипта. Работа приложения завершается.");
-//            System.exit(1);
-//            return null;
-//        }
-//    }
-
     private Request createRequestWithHumanBeingKeyID(SendCommand command, Scanner scanner, boolean scriptMode) {
         try {
             CommandValidator.validateAmountOfArgs(command.getCommandArgs(), 1);
@@ -137,19 +132,25 @@ public class RequestMaker {
             return new Request(command.getCommandName(), id, key, inputManager.askHumanBeing());
         } catch (InvalidCommandArgument | IllegalArgumentException e) {
             PrintManager.printErr("Аргумент команды не удалось обработать. Введете корректную команду.");
-            //System.exit(1);
             return null;
         } catch (InvalidInputException e) {
             PrintManager.printErr("Некорректный ввод. Введете корректную команду.");
-            //System.exit(1);
             return null;
         } catch (ScriptException e) {
             PrintManager.printErr("Проверьте корректность данных скрипта. Работа приложения завершается.");
-            //System.exit(1);
             return null;
         }
     }
 
+    /**
+     * Creates a request with a HumanBeing and 'key' arguments.
+     *
+     * @param command The SendCommand object representing the command.
+     * @param scanner The Scanner object used for user input.
+     * @param scriptMode Indicates whether the application is running in script mode.
+     * @return The created Request object.
+     * @throws IllegalArgumentException if the input value cannot be parsed.
+     */
     private Request createRequestWithHumanBeingKey(SendCommand command, Scanner scanner, boolean scriptMode) {
         try {
             CommandValidator.validateAmountOfArgs(command.getCommandArgs(), 0);
@@ -158,11 +159,9 @@ public class RequestMaker {
             return new Request(command.getCommandName(), inputManager.askHumanBeing(), key);
         } catch (InvalidCommandArgument | IllegalArgumentException e) {
             PrintManager.printErr("Аргумент команды не удалось обработать. Введете корректную команду.");
-            //System.exit(1);
             return null;
         } catch (ScriptException e) {
             PrintManager.printErr("Проверьте корректность данных скрипта. Работа приложения завершается.");
-            //System.exit(1);
             return null;
         }
     }

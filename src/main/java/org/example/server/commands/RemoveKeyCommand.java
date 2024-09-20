@@ -1,24 +1,31 @@
 package org.example.server.commands;
 
-import org.example.common.collectionEntities.HumanBeing;
 import org.example.common.utility.PrintManager;
 import org.example.common.utility.Request;
 import org.example.common.utility.Response;
 import org.example.server.utility.CollectionManager;
 
 /**
- * Команда для удаления элемента коллекции по его ключу.
+ * Represents the "remove_key" command for deleting an element from the collection based on its key.
+ * This class extends the {@code Command} functionality to remove a specific item from the collection,
+ * using its unique identifier.
+ *
+ * @author Aerosolus
+ * @version 1.0
+ * @since 1.0
+ * @see Command
  */
 public class RemoveKeyCommand extends Command {
 
     /**
-     Менеджер коллекции.
+     * The manager responsible for handling the collection operations.
      */
     private final CollectionManager collectionManager;
 
     /**
-     * Создает новый объект команды.
-     * @param collectionManager менеджер коллекции
+     * Creates a new RemoveKeyCommand instance.
+     *
+     * @param collectionManager The CollectionManager instance to use for removing elements based on their keys.
      */
     public RemoveKeyCommand(CollectionManager collectionManager) {
         super("remove_key", "удалить элемент из коллекции по его ключу", 1);
@@ -26,9 +33,10 @@ public class RemoveKeyCommand extends Command {
     }
 
     /**
-     * Выполняет удаление элемента коллекции по его id.
-     * @param request запрос, содержащий id элемента для удаления
-     * @return ответ с информацией об успешности выполнения операции
+     * Executes the remove_key command, deleting an element from the collection based on its key.
+     *
+     * @param request The user's request containing the key of the element to be removed.
+     * @return A Response object indicating whether the operation was successful and providing feedback on the deletion process.
      */
     @Override
     public Response execute(Request request) {
